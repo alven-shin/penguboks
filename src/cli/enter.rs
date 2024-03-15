@@ -1,12 +1,9 @@
 use std::process::Command;
 
-pub fn run() {
-    let name = "default";
-    let container_name = format!("penguboks-{}", name);
-
+pub fn run(name: &str) {
     // start container
     Command::new("docker")
-        .args(["start", &container_name])
+        .args(["start", name])
         .spawn()
         .unwrap()
         .wait()
@@ -14,7 +11,7 @@ pub fn run() {
 
     // set up container
     Command::new("docker")
-        .args(["attach", &container_name])
+        .args(["attach", name])
         .spawn()
         .unwrap()
         .wait()

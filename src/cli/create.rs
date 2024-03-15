@@ -3,9 +3,8 @@ use std::{
     process::{Command, Stdio},
 };
 
-pub fn run() {
-    let name = "default";
-    let prefixed_name = format!("penguboks-{}", name);
+pub fn run(name: &str) {
+    let image_name = format!("penguboks-{}", name);
 
     let whoami = Command::new("whoami").output().unwrap().stdout;
     let user = String::from_utf8_lossy(&whoami);
@@ -17,7 +16,7 @@ pub fn run() {
             "--label",
             "manager=penguboks",
             "--tag",
-            &prefixed_name,
+            &image_name,
             "-",
         ])
         .stdin(Stdio::piped())
@@ -52,8 +51,8 @@ WORKDIR /home/{username}
             "--hostname",
             "penguboks",
             "--name",
-            &prefixed_name,
-            &prefixed_name,
+            name,
+            &image_name,
         ])
         .spawn()
         .unwrap()

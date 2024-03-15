@@ -16,11 +16,20 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum Commands {
     /// Create a new linux environment
-    Create,
+    Create {
+        #[arg(default_value = "default")]
+        name: String,
+    },
     /// Enter a linux environment
-    Enter,
+    Enter {
+        #[arg(default_value = "default")]
+        name: String,
+    },
     /// Delete an existing linux environment
-    Delete,
+    Delete {
+        #[arg(default_value = "default")]
+        name: String,
+    },
     /// List linux environments
     List,
     /// Check health
