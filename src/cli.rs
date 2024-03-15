@@ -1,3 +1,8 @@
+pub mod create;
+pub mod delete;
+pub mod enter;
+pub mod list;
+
 use clap::{Parser, Subcommand};
 
 /// Access linux development environments with ease from MacOS. Powered by Docker.
@@ -5,11 +10,11 @@ use clap::{Parser, Subcommand};
 #[command(author, version, about, long_about = None)]
 pub struct Cli {
     #[command(subcommand)]
-    command: Commands,
+    pub command: Commands,
 }
 
 #[derive(Subcommand)]
-enum Commands {
+pub enum Commands {
     /// Create a new linux environment
     Create,
     /// Enter a linux environment
