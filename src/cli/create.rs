@@ -7,6 +7,9 @@ pub fn run() {
     let name = "default";
     let prefixed_name = format!("penguboks-{}", name);
 
+    let whoami = Command::new("whoami").output().unwrap().stdout;
+    let user = String::from_utf8_lossy(&whoami);
+
     // build image
     let mut build = Command::new("docker")
         .args([
@@ -28,11 +31,12 @@ FROM fedora:latest
 RUN dnf install -y pulseaudio \
     && rm -rf /var/cache/dnf
 
-RUN useradd --no-log-init --user-group --create-home --shell /bin/bash penguboks \
-    && echo 'penguboks ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-USER penguboks
-WORKDIR /home/penguboks
+RUN useradd --no-log-init --user-group --create-home --shell /bin/bash {username} \
+    && echo '{username} ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+USER {username}
+WORKDIR /home/{username}
 ",
+        username = user.trim()
     )
     .unwrap();
     build.wait().unwrap();
@@ -45,6 +49,8 @@ WORKDIR /home/penguboks
             "--tty",
             "--label",
             "manager=penguboks",
+            "--hostname",
+            "penguboks",
             "--name",
             &prefixed_name,
             &prefixed_name,
