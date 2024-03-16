@@ -4,12 +4,13 @@ use std::{
     process::{Command, Stdio},
 };
 
+/// - ensure container does not already exist
 /// - create image for container to save disk space and change user
 /// - label the images and directories
 /// - create container and mount directories
 pub fn run(name: &str) {
+    // check for container existence
     let containers = crate::get_containers();
-
     if containers.contains(name) {
         eprintln!("ERROR: container already exists");
         eprintln!(

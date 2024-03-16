@@ -1,7 +1,7 @@
 use std::{collections::HashSet, process::Command};
 
 use clap::Parser;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 mod cli;
 
@@ -17,6 +17,9 @@ pub fn run() {
     }
 }
 
+/// - get list of containers from docker
+/// - deserialize list
+/// - create set with all penguboks containers
 fn get_containers() -> HashSet<String> {
     let output = Command::new("docker")
         .args([
@@ -42,7 +45,7 @@ fn get_containers() -> HashSet<String> {
     set
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct Container {
     names: String,
