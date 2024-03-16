@@ -8,6 +8,21 @@ use std::{
 /// - label the images and directories
 /// - create container and mount directories
 pub fn run(name: &str) {
+    let containers = crate::get_containers();
+
+    if containers.contains(name) {
+        eprintln!("ERROR: container already exists");
+        eprintln!(
+            "\
+INFO: enter container with:
+
+      penguboks enter {}\
+",
+            name
+        );
+        return;
+    }
+
     let image_name = format!("penguboks-{}", name);
 
     // username
